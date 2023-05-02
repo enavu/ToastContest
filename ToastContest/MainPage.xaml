@@ -20,12 +20,14 @@
                 HorizontalOptions="Center" />
 
             <Label
+                x:Name="Label1"
                 Text="Hello, World!"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
 
             <Label
+                x:Name="Label2"
                 Text="Welcome to .NET Multi-platform App UI"
                 SemanticProperties.HeadingLevel="Level2"
                 SemanticProperties.Description="Welcome to dot net Multi platform App U I"
@@ -60,12 +62,15 @@
             </Frame>
                 
             <Frame>
-                <Entry Placeholder="Message for Toast"></Entry>
+                <Entry 
+                    Placeholder="Message for Toast"
+                    Text="{Binding Message}"></Entry>
             </Frame>
                 
             <Frame>
                 <VerticalStackLayout>
-                <Slider Minimum="1" Maximum="10" ValueChanged="Slider_ValueChanged"></Slider>
+                <Slider Minimum="1" Maximum="10" ValueChanged="Slider_ValueChanged"
+                        Value="{Binding Slider}"></Slider>
                 <Label x:Name="sliderValue"></Label>
                 </VerticalStackLayout>
             </Frame>

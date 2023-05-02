@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using System.Numerics;
 using System.Threading;
 using ToastContest.ViewModel;
 
@@ -8,6 +9,7 @@ namespace ToastContest;
 public partial class MainPage : ContentPage
 {
 	int count = 0;
+    public ContentPage cp;
 	private readonly MainPageViewModel _vm;
 	public MainPage()
 	{
@@ -26,36 +28,34 @@ public partial class MainPage : ContentPage
 
 	private async void OnCounterClicked(object sender, EventArgs e)
 	{
-
+        Picker vertical;
+        Label horizontal;
+        Color color;
         CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        vertical = _vm.SelectedVertical == "Top" ? TypeOfSnackBar: VeritcalLocation;
+        horizontal = _vm.SelectedHorizontal == "Left" ? Label1 : Label2;
+        color = _vm.SelectedMessageType == "Success" ? Colors.Green : Colors.Red;
+
         var snackbarOptions = new SnackbarOptions
         {
-            BackgroundColor = Colors.Red,
-            TextColor = Colors.Green,
+            BackgroundColor = color,
+            TextColor = Colors.Black,
             ActionButtonTextColor = Colors.Yellow,
             CornerRadius = new CornerRadius(20),
             Font = Microsoft.Maui.Font.SystemFontOfSize(14),
             ActionButtonFont = Microsoft.Maui.Font.SystemFontOfSize(14),
-            CharacterSpacing = 0.5
+            CharacterSpacing = 0.5,
+            
+
 
         };
-
-        string text = "This is a Snackbar";
+        string text = _vm.Message;
         string actionButtonText = "Click Here to Dismiss";
-        TimeSpan duration = TimeSpan.FromSeconds(10);
+        Int32 secs = Convert.ToInt32(Convert.ToDouble(_vm.Slider));
+        TimeSpan duration = TimeSpan.FromSeconds(secs);
         Action action = async () => await App.Current.MainPage.DisplayAlert("Snackbar ActionButton Tapped", "The user has tapped the Snackbar ActionButton", "OK");
 
-        var snackbar = Snackbar.Make(text, action, actionButtonText, duration, new SnackbarOptions
-        {
-            BackgroundColor = Colors.Red,
-            TextColor = Colors.Green,
-            ActionButtonTextColor = Colors.Yellow,
-            CornerRadius = new CornerRadius(20),
-            Font = Microsoft.Maui.Font.SystemFontOfSize(14),
-            ActionButtonFont = Microsoft.Maui.Font.SystemFontOfSize(14),
-            CharacterSpacing = 0.5
-
-        }, TypeOfSnackBar);
+        var snackbar = Snackbar.Make(text, action, actionButtonText, duration, snackbarOptions, vertical);
 
         await snackbar.Show(cancellationTokenSource.Token);
     }
@@ -65,40 +65,6 @@ public partial class MainPage : ContentPage
 		sliderValue.Text = ((int)e.NewValue).ToString();
     }
 
-    private async void SetSnackBarSettings(object sender, ValueChangedEventArgs e)
-	{
-        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-        var snackbarOptions = new SnackbarOptions
-        {
-            BackgroundColor = Colors.Red,
-            TextColor = Colors.Green,
-            ActionButtonTextColor = Colors.Yellow,
-            CornerRadius = new CornerRadius(20),
-            Font = Microsoft.Maui.Font.SystemFontOfSize(14),
-            ActionButtonFont = Microsoft.Maui.Font.SystemFontOfSize(14),
-            CharacterSpacing = 0.5
 
-        };
-
-        string text = "This is a Snackbar";
-        string actionButtonText = "Click Here to Dismiss";
-        TimeSpan duration = TimeSpan.FromSeconds(10);
-        Action action = async () => await App.Current.MainPage.DisplayAlert("Snackbar ActionButton Tapped", "The user has tapped the Snackbar ActionButton", "OK");
-
-        var snackbar = Snackbar.Make(text, action, actionButtonText, duration, new SnackbarOptions
-        {
-            BackgroundColor = Colors.Red,
-            TextColor = Colors.Green,
-            ActionButtonTextColor = Colors.Yellow,
-            CornerRadius = new CornerRadius(20),
-            Font = Microsoft.Maui.Font.SystemFontOfSize(14),
-            ActionButtonFont = Microsoft.Maui.Font.SystemFontOfSize(14),
-            CharacterSpacing = 0.5
-
-        }, Stuff);
-
-        await snackbar.Show(cancellationTokenSource.Token);
-
-    }
 }
 
